@@ -1,0 +1,31 @@
+﻿@model MvcWebapiNhiberAutofac.Models.IndexViewModel
+@using MvcWebapiNhiberAutofac.Helpers
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Shows) {
+    <tr>
+        <td>
+            <a href="#" class="detailsLink" id="@item.Id">@item.Name</a>
+        </td>        
+    </tr>
+}
+
+</table>
+
+
+<div class="btn-group">
+    @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x }))
+</div>

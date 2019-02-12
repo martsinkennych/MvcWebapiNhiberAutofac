@@ -40,9 +40,38 @@ namespace MvcWebapiNhiberAutofac.BL
             return result;
         }
 
+        public async Task<ShowModel> GetShow(int id)
+        {
+            var show = await context.GetShow(id);
+
+            if (show != null)
+            {
+                ShowModel result = new ShowModel { Id = show.Id, Page = show.Page, Name = show.Name };
+
+                return result;
+            }
+            else
+                return null;
+        }
+
+        public async Task DeleteShow(int id)
+        {
+            await context.DeleteShow(id);
+        }
+
         public async Task<bool> IfPageExists(int page)
         {
             return await context.IfPageExists(page);
+        }
+
+        public async Task EditShow(int id, string name)
+        {
+            await context.EditShow(id, name);
+        }
+
+        public async Task AddShow(string name)
+        {
+            await context.AddShow(name);
         }
     }
 }

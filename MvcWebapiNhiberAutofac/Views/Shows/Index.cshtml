@@ -5,26 +5,52 @@
     ViewBag.Title = "Index";
 }
 
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/casts.js"></script>
+
 <h2>Index</h2>
 
-<table class="table">
-    <tr>
-        <th>
-            Name
-        </th>
-        <th></th>
-    </tr>
+<a href="#" class="addLink" id="addLink">Add show</a>
 
-@foreach (var item in Model.Shows) {
-    <tr>
-        <td>
-            <a href="#" class="detailsLink" id="@item.Id">@item.Name</a>
-        </td>        
-    </tr>
-}
+<div>
+    <div style="float: left; margin-right: 50px;">
+        <table class="table">
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th></th>
+            </tr>
 
-</table>
+            @foreach (var item in Model.Shows)
+            {
+                <tr>
+                    <td>
+                        <a href="#" class="detailsLink" id="@item.Id">@item.Name</a>
+                    </td>
+                    <td>
+                        <a href="#" class="editLink" id="@item.Id">Edit</a>
+                    </td>
+                    <td>
+                        <a href="#" class="deleteLink" id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
 
+        </table>
+    </div>
+    <div id="detailsArea" style="float: left; margin-right: 50px;"></div>
+    <div id="editBlock" style="float: left; margin-right: 50px;">
+        <p><b>Show editing</b></p>
+        <table>
+            <tr><td><label>Name: </label></td><td><input type="text" id="editName" /></td></tr>
+        </table>
+    </div>
+    <div style="clear: both;"></div>
+</div>
 
 <div class="btn-group">
     @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x }))

@@ -5,9 +5,9 @@ namespace MvcWebapiNhiberAutofac.DAL
 {
     public interface IRepository
     {
-        IList<Show> GetAll();
-        IList<Show> GetShowsPerPage(int page);
-        bool IfPageExists(int page);
-        void AddRange(List<Show> range);
+        Task<IList<Show>> GetAll();
+        Task<IList<Show>> GetShowsPerPage(int page);
+        Task<bool> IfPageExists(int page);
+        Task AddRange(IEnumerable<Show> range);
     }
 }

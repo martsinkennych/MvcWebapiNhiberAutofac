@@ -6,8 +6,8 @@ namespace MvcWebapiNhiberAutofac.BL
 {
     public interface IShowService
     {
-        Task<IList<ShowModel>> GetAll();
-        Task<IList<ShowModel>> GetShowsPerPage(int page);
+        Task<IEnumerable<ShowModel>> GetAll();
+        Task<IEnumerable<ShowModel>> GetShowsPerPage(int page);
         Task<bool> IfPageExists(int page);
         Task AddRange(IList<ShowModel> range, int page);
     }

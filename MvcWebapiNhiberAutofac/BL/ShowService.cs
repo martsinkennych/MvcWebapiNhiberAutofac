@@ -17,36 +17,32 @@ namespace MvcWebapiNhiberAutofac.BL
 
         public async Task AddRange(IList<ShowModel> range, int page)
         {
-            var result = await Task.Run(() => range.Select(x => new Show { Id = x.Id, Page = page, Name = x.Name }).ToList());
+            var result = range.Select(x => new Show { Id = x.Id, Page = page, Name = x.Name });
 
-            await Task.Run(() => context.AddRange(result));
+            await context.AddRange(result);
         }
 
-        public async Task<IList<ShowModel>> GetAll()
+        public async Task<IEnumerable<ShowModel>> GetAll()
         {
-            IList<ShowModel> result = null;
-            
-            var shows = await Task.Run(() => context.GetAll());
+            var shows = await context.GetAll();
 
-            result = await Task.Run(() => shows.Select(x => new ShowModel { Id = x.Id, Name = x.Name }).ToList());
+            var result = shows.Select(x => new ShowModel { Id = x.Id, Name = x.Name });
 
             return result;
         }
 
-        public async Task<IList<ShowModel>> GetShowsPerPage(int page)
+        public async Task<IEnumerable<ShowModel>> GetShowsPerPage(int page)
         {
-            IList<ShowModel> result = null;
+            var shows = await context.GetShowsPerPage(page);
 
-            var shows = await Task.Run(() => context.GetShowsPerPage(page));
-
-            result = await Task.Run(() => shows.Select(x => new ShowModel { Id = x.Id, Name = x.Name }).ToList());
+            var result = shows.Select(x => new ShowModel { Id = x.Id, Name = x.Name });
 
             return result;
         }
 
         public async Task<bool> IfPageExists(int page)
         {
-            return await Task.Run(() => context.IfPageExists(page));
+            return await context.IfPageExists(page);
         }
     }
 }

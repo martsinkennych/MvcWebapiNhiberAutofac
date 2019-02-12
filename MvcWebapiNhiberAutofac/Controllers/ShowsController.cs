@@ -34,7 +34,7 @@ namespace MvcWebapiNhiberAutofac.Controllers
 
             var shows = await showService.GetShowsPerPage(page);
 
-            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = shows.Count, TotalPages = 200 };
+            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = shows.Count(), TotalPages = 200 };
             IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Shows = shows };
 
             return View(ivm);

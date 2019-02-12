@@ -1,11 +1,10 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
+using Autofac.Integration.WebApi;
 using MvcWebapiNhiberAutofac.BL;
 using MvcWebapiNhiberAutofac.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Reflection;
+using System.Web.Http;
 using System.Web.Mvc;
 
 namespace MvcWebapiNhiberAutofac
@@ -17,8 +16,9 @@ namespace MvcWebapiNhiberAutofac
             // получаем экземпляр контейнера
             var builder = new ContainerBuilder();
 
-            // регистрируем контроллер в текущей сборке
-            builder.RegisterControllers(typeof(MvcApplication).Assembly);
+            // регистрируем контроллеры в текущей сборке
+            builder.RegisterControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             // регистрируем споставление типов
             builder.RegisterType<ShowRepository>().As<IRepository>();
@@ -30,6 +30,7 @@ namespace MvcWebapiNhiberAutofac
 
             // установка сопоставителя зависимостей
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver((IContainer)container); //Set the WebApi DependencyResolver
         }
     }
 }

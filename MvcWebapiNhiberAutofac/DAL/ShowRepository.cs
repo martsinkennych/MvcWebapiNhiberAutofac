@@ -14,7 +14,7 @@ namespace MvcWebapiNhiberAutofac.DAL
             {
                 using (ITransaction transaction = session.BeginTransaction())
                 {
-                    foreach(var show in range)
+                    foreach (var show in range)
                         await session.SaveAsync(show);
                     transaction.Commit();
                 }
@@ -37,6 +37,28 @@ namespace MvcWebapiNhiberAutofac.DAL
             }
         }
 
+        public async Task<Show> GetShow(int id)
+        {
+            using (ISession session = NHibernateSession.OpenSession())
+            {
+                return await session.Query<Show>().Where(x => x.Id == id).FirstOrDefaultAsync();
+            }
+        }
+
+        public async Task DeleteShow(int id)
+        {
+            using (ISession session = NHibernateSession.OpenSession())
+            {
+                var show = await session.GetAsync<Show>(id);
+
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    await session.DeleteAsync(show);
+                    transaction.Commit();
+                }
+            }
+        }
+
         public async Task<bool> IfPageExists(int page)
         {
             using (ISession session = NHibernateSession.OpenSession())
@@ -47,6 +69,38 @@ namespace MvcWebapiNhiberAutofac.DAL
                 }
                 else
                     return false;
+            }
+        }
+
+        public async Task EditShow(int id, string name)
+        {
+            using (ISession session = NHibernateSession.OpenSession())
+            {
+                var show = await session.GetAsync<Show>(id);
+                Show newShow = new Show { Id = show.Id, Page = show.Page, Name = name };
+
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    await session.SaveOrUpdateAsync(newShow);
+                    transaction.Commit();
+                }
+
+            }
+        }
+
+        public async Task AddShow(string name)
+        {
+            using (ISession session = NHibernateSession.OpenSession())
+            {
+                var lastShow = session.Query<Show>().LastOrDefault();
+                Show newShow = new Show { Id = lastShow.Id + 1, Page = lastShow.Page, Name = name };
+
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    await session.SaveAsync(newShow);
+                    transaction.Commit();
+                }
+
             }
         }
     }

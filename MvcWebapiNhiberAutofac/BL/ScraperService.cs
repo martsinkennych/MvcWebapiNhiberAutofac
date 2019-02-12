@@ -16,5 +16,15 @@ namespace MvcWebapiNhiberAutofac.BL
                 return JsonConvert.DeserializeObject<ShowModel[]>(json);
             }
         }
+
+        public async Task<CastModel[]> GetCastsAsync(int index)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var json = await httpClient.GetStringAsync($"http://api.tvmaze.com/shows/{index}/cast");
+
+                return JsonConvert.DeserializeObject<CastModel[]>(json);
+            }
+        }
     }
 }

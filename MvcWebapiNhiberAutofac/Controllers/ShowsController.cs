@@ -21,7 +21,7 @@ namespace MvcWebapiNhiberAutofac.Controllers
         // GET: Shows
         public async Task<ActionResult> Index(int page = 0)
         {
-            if(!await showService.IfPageExists(page == 0 ? 1 : page))
+            if(!await showService.IfPageExists(page == 0 ? 1 : page)) 
             {
                 //обращение к апи
                 var pageShows = await scraperService.GetShowsAsync(page != 0 ? page - 1 : 0);
